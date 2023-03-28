@@ -644,6 +644,7 @@ class TestHomework:
                     'Убедитесь, что бот использует функцию `requests.get()` '
                     'для отправки запроса к API домашки.'
                 )
+            
 
     def test_main_check_response_is_called(self, monkeypatch,
                                            random_timestamp,
