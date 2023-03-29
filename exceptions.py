@@ -20,9 +20,3 @@ class UnexpectedStatusError(Exception):
     """Отсутствует или получен неверный статус домашней работы."""
 
     pass
-
-
-class WrongKeyError(Exception):
-    """В словаре нет ожидаемого ключа."""
-
-    pass
