@@ -37,9 +37,9 @@ def check_tokens():
     }
     missed_vars = []
     for var in environment_variables:
-        if environment_variables[var] is None:
+        if not environment_variables[var]:
             missed_vars.append(var)
-    if missed_vars == []:
+    if not missed_vars:
         logging.debug(
             'Все переменные окружения указаны. Программа готова к работе.'
         )
@@ -102,7 +102,7 @@ def get_api_answer(timestamp):
 def check_response(response):
     """Проверяет полученный от API ответ на соответствие документации."""
     logging.debug('Начало проверки полученных от API данных.')
-    if isinstance(response, dict) is False:
+    if not isinstance(response, dict):
         raise TypeError(
             f'Тип полученных данных: {type(response)}. '
             'Ожидаемый тип данных: dict.'
@@ -117,7 +117,7 @@ def check_response(response):
             'В ответе API отсутствует ожидаемый ключ:'
             '"current_date".'
         )
-    if isinstance(response['homeworks'], list) is False:
+    if not isinstance(response['homeworks'], list):
         raise TypeError(
             f'Тип полученных данных: {type(response["homeworks"])}. '
             'Ожидаемый тип данных: list.'
@@ -129,7 +129,7 @@ def check_response(response):
 def parse_status(homework):
     """Извлекает из конкретной работы ее статус."""
     logging.debug('Начало проверки обновления статуса работы.')
-    if type(homework) is not dict:
+    if not isinstance(homework, dict):
         raise TypeError(
             f'Получен неправильный тип для homework: {type(homework)} '
             'Ожидаемый тип данных: dict.'
@@ -161,6 +161,7 @@ def main():
     check_tokens()
     timestamp = int(time.time())
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
+    sent_msg = ''
     while True:
         try:
             response = get_api_answer(timestamp)
@@ -175,7 +176,6 @@ def main():
         except Exception as error:
             message = f'Сбой в работе программы: {error}'
             logging.error(message, exc_info=True)
-            sent_msg = ''
             if message != sent_msg:
                 send_message(bot, message)
                 sent_msg = message
